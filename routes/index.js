@@ -8,7 +8,7 @@ const utf8 = require('utf8');
 router.get('/', function (req, res, next) {
 
     // get query
-    query.rules("194.147.122.223", 2303, 2000)
+    query.rules("194.147.122.223", 2303, 500)
         .then(function (mods) {
             var modpack = "Could not determine";
 
@@ -36,7 +36,10 @@ router.get('/', function (req, res, next) {
             var result = `Current Modpack: ${modpack}`;
             res.render('index', {title: 'Digby Modpack Status', currentModpack: result});
         }
-        ).catch(console.log);
+        ).catch(function (error) {
+            var result = `Server is Offline`;
+            res.render('index', {title: 'Digby Modpack Status', currentModpack: result});
+    })
 });
 
 module.exports = router;
