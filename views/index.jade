@@ -5,6 +5,8 @@ block content
     div.jumbotron.text-center
       h1.display-4 Digby's War Room
       p
-      h3= currentModpack
+      h3= `Current Modpack: ${currentModpack}`
+      h3= `Players ${playernum}/${maxPlayers}`
+      h3= `Map: ${map}, Template: ${template}`
       span.float-right
-        small v1.1
+        small v1.2
