@@ -1,0 +1,19 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js')
+    script(src='/javascripts/bootstrap.min.js')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+
+    link(rel='icon', type='image/ico', href='/images/favicon.ico')
+
+    meta(property='og:type', content='website')
+    meta(property='og:title', content="Digby's War Room")
+    meta(property='og:description', content=`Players: \n ${playerList}`)
+    meta(property='og:image', content='/images/favicon.ico')
+
+  body
+    block content

@@ -8,8 +8,9 @@ const utf8 = require('utf8');
 router.get('/', async function (req, res, next) {
 
     let serverInfo = await query.info("194.147.122.223", 2303, 500);
+    let playerInfo = await query.players("194.147.122.223", 2303, 500);
 
-    // console.log(serverInfo);
+    console.log(playerInfo);
     // console.log(serverInfo.maxplayers);
     // console.log(serverInfo.playersnum);
 
@@ -44,6 +45,31 @@ router.get('/', async function (req, res, next) {
         ).catch(function (error) {
         var result = `Server is Offline`;
         res.render('index', {title: 'Digby Modpack Status', currentModpack: result, playernum: 0, maxPlayers: 0, map: "n/a", template: "n/a"});
+    })
+});
+
+/* GET players. */
+router.get('/players', async function (req, res, next) {
+
+    // get query
+    query.players("194.147.122.223", 2303, 500)
+        .then(function (players) {
+
+            let playerString = "";
+            for (const val of players) {
+                playerString += `${val.name} \n`
+            }
+
+            if (players.length <= 0) {
+                playerString = "No players connected";
+            }
+
+            // render result
+            res.render('players', {title: 'Digby Modpack Status', playerList: playerString});
+            }
+        ).catch(function (error) {
+        var result = `Server is Offline`;
+        res.render('index', {title: 'Digby Modpack Status', playerList: result});
     })
 });
 
