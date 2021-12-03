@@ -7,15 +7,15 @@ const utf8 = require('utf8');
 /* GET home page. */
 router.get('/', async function (req, res, next) {
 
-    let serverInfo = await query.info("194.147.122.223", 2303, 500);
-    let playerInfo = await query.players("194.147.122.223", 2303, 500);
+    let serverInfo = await query.info("65.108.4.90", 2303, 500);
+    let playerInfo = await query.players("65.108.4.90", 2303, 500);
 
-    console.log(playerInfo);
+    // console.log(playerInfo);
     // console.log(serverInfo.maxplayers);
     // console.log(serverInfo.playersnum);
 
     // get query
-    query.rules("194.147.122.223", 2303, 500)
+    query.rules("65.108.4.90", 2303, 500)
         .then(function (mods) {
                 var modpack = "Could not determine";
 
@@ -52,7 +52,7 @@ router.get('/', async function (req, res, next) {
 router.get('/players', async function (req, res, next) {
 
     // get query
-    query.players("194.147.122.223", 2303, 500)
+    query.players("65.108.4.90", 2303, 500)
         .then(function (players) {
 
             let playerString = "";
