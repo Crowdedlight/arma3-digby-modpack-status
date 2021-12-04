@@ -7,42 +7,44 @@ const utf8 = require('utf8');
 /* GET home page. */
 router.get('/', async function (req, res, next) {
 
-    let serverInfo = await query.info("65.108.4.90", 2303, 500);
-    let playerInfo = await query.players("65.108.4.90", 2303, 500);
+    // let playerInfo = await query.players("65.108.4.90", 2303, 500);
+    let serverInfo = await query.info("65.108.4.90", 2303, 500)
 
     // console.log(playerInfo);
+    // console.log(serverInfo);
     // console.log(serverInfo.maxplayers);
     // console.log(serverInfo.playersnum);
 
     // get query
     query.rules("65.108.4.90", 2303, 500)
         .then(function (mods) {
-                var modpack = "Could not determine";
-
-                // loop to see what modpack
-                for (const val of mods) {
-                    // check if part of modern modpack
-                    if (utf8.encode(val.value).includes("unsung")) {
-                        modpack = "Historical";
-                        break;
-                    }
-
-                    // check if part of historical modpack
-                    if (utf8.encode(val.value).includes("RHSGREF")) {
-                        modpack = "Modern";
-                        break;
-                    }
-
-                    // check if part of scifi modpack
-                    if (utf8.encode(val.value).includes("Operation: TREBUCHET")) {
-                        modpack = "Sci-fi";
-                        break;
-                    }
+            console.log(mods.length)
+            var modpack = "Could not determine";
+            // loop to see what modpack
+            for (const val of mods) {
+                // check if part of modern modpack
+                if (utf8.encode(val.value).includes("unsung")) {
+                    modpack = "Historical";
+                    break;
                 }
-                // render result
-                res.render('index', {title: 'Digby Modpack Status', currentModpack: modpack, playernum: serverInfo.playersnum, maxPlayers: serverInfo.maxplayers, map: serverInfo.map, template: serverInfo.game});
+
+                // check if part of historical modpack
+                if (utf8.encode(val.value).includes("RHS AFRF")) {
+                    modpack = "Modern";
+                    break;
+                }
+
+                // check if part of scifi modpack
+                if (utf8.encode(val.value).includes("Operation: TREBUCHET")) {
+                    modpack = "Sci-fi";
+                    break;
+                }
             }
+            // render result
+            res.render('index', {title: 'Digby Modpack Status', currentModpack: modpack, playernum: serverInfo.playersnum, maxPlayers: serverInfo.maxplayers, map: serverInfo.map, template: serverInfo.game});
+        }
         ).catch(function (error) {
+            console.log(error)
         var result = `Server is Offline`;
         res.render('index', {title: 'Digby Modpack Status', currentModpack: result, playernum: 0, maxPlayers: 0, map: "n/a", template: "n/a"});
     })
