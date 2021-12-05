@@ -1,0 +1,3 @@
+[submodule "source-server-query"]
+	path = source-server-query
+	url = https://github.com/Crowdedlight/source-server-query

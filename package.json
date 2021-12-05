@@ -15,7 +15,7 @@
     "jade": "~1.11.0",
     "jquery": "^3.6.0",
     "morgan": "~1.9.1",
-    "source-server-query": "^1.0.1",
+    "source-server-query": "file:source-server-query",
     "utf8": "^3.0.0"
   }
 }
