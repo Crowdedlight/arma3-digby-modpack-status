@@ -18,7 +18,6 @@ router.get('/', async function (req, res, next) {
     // get query
     query.rules("65.108.4.90", 2303, 500)
         .then(function (mods) {
-            console.log(mods.length)
             var modpack = "Could not determine";
             // loop to see what modpack
             for (const val of mods) {
@@ -36,7 +35,17 @@ router.get('/', async function (req, res, next) {
 
                 // check if part of scifi modpack
                 if (utf8.encode(val.value).includes("Operation: TREBUCHET")) {
-                    modpack = "Sci-fi";
+                    modpack = "Sci-fi : HALO";
+                    break;
+                }
+
+                if (utf8.encode(val.value).includes("TIOW")) {
+                    modpack = "Sci-fi : 40K";
+                    break;
+                }
+
+                if (utf8.encode(val.value).includes("Legion Studios")) {
+                    modpack = "Sci-fi : Star Wars";
                     break;
                 }
             }
@@ -45,8 +54,8 @@ router.get('/', async function (req, res, next) {
         }
         ).catch(function (error) {
             console.log(error)
-        var result = `Server is Offline`;
-        res.render('index', {title: 'Digby Modpack Status', currentModpack: result, playernum: 0, maxPlayers: 0, map: "n/a", template: "n/a"});
+            var result = `Server is Offline`;
+            res.render('index', {title: 'Digby Modpack Status', currentModpack: result, playernum: 0, maxPlayers: 0, map: "n/a", template: "n/a"});
     })
 });
 
