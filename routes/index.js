@@ -3,54 +3,65 @@ var router = express.Router();
 
 const query = require("source-server-query");
 const utf8 = require('utf8');
+var parser = require('../rules_parser');
 
 /* GET home page. */
 router.get('/', async function (req, res, next) {
 
     // let playerInfo = await query.players("65.108.4.90", 2303, 500);
-    let serverInfo = await query.info("65.108.4.90", 2303, 500)
-
-    // console.log(playerInfo);
-    // console.log(serverInfo);
-    // console.log(serverInfo.maxplayers);
-    // console.log(serverInfo.playersnum);
+    
+    // use try/catch to still render page if server is offline, and just catch the returned
+    let serverInfo;
+    try {
+        serverInfo = await query.info("65.108.4.90", 2303, 500);
+    } catch (error) {
+        console.log(error);
+    }
 
     // get query
     query.rules("65.108.4.90", 2303, 500)
         .then(function (mods) {
             var modpack = "Could not determine";
+
+            // need to parse incoming data per this protocol...
+            // https://community.bistudio.com/wiki/Arma_3:_ServerBrowserProtocol3
+            var data = parser(mods);
+            // console.log(data);
+
             // loop to see what modpack
-            for (const val of mods) {
+            for (const mod of data["mods"]) {
                 // check if part of modern modpack
-                if (utf8.encode(val.value).includes("unsung")) {
+                console.log(mod);
+                if (mod.name.toLowerCase().includes("unsung")) {
                     modpack = "Historical";
                     break;
                 }
 
                 // check if part of historical modpack
-                if (utf8.encode(val.value).includes("RHS AFRF")) {
+                if (mod.name.toLowerCase().includes("rhs: united states forces")) {
                     modpack = "Modern";
                     break;
                 }
 
                 // check if part of scifi modpack
-                if (utf8.encode(val.value).includes("Operation: TREBUCHET")) {
+                if (mod.name.toLowerCase().includes("trebuchet")) {
                     modpack = "Sci-fi : HALO";
                     break;
                 }
 
-                if (utf8.encode(val.value).includes("TIOW")) {
+                if (mod.name.toLowerCase().includes("tiow")) {
                     modpack = "Sci-fi : 40K";
                     break;
                 }
 
-                if (utf8.encode(val.value).includes("Legion Studios")) {
+                if (mod.name.toLowerCase().includes("legion studios")) {
                     modpack = "Sci-fi : Star Wars";
                     break;
                 }
             }
+
             // render result
-            res.render('index', {title: 'Digby Modpack Status', currentModpack: modpack, playernum: serverInfo.playersnum, maxPlayers: serverInfo.maxplayers, map: serverInfo.map, template: serverInfo.game});
+            res.render('index', {title: 'Digby Modpack Status', currentModpack: modpack, playernum: serverInfo.players, maxPlayers: serverInfo.max_players, map: serverInfo.map, template: serverInfo.game});
         }
         ).catch(function (error) {
             console.log(error)
