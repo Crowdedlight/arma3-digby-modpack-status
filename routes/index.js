@@ -31,7 +31,6 @@ router.get('/', async function (req, res, next) {
             // loop to see what modpack
             for (const mod of data["mods"]) {
                 // check if part of modern modpack
-                console.log(mod);
                 if (mod.name.toLowerCase().includes("unsung")) {
                     modpack = "Historical";
                     break;
