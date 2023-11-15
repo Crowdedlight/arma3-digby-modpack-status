@@ -8,8 +8,9 @@ https://id.keymetrics.io/api/oauth/login
 
 To update:
 1. SSH into server
-2. run ``pm2 update``
-3. If it doesn't work, install pm2 ``npm install pm2@latest -g``
+2. go into /var/www/arma3-mod-differ folder and git pull, npm install. Same for submodule if changes to it. 
+3. run ``pm2 update``
+4. If it doesn't work, install pm2 ``npm install pm2@latest -g``
 
 PM2 commands
 ```bash
