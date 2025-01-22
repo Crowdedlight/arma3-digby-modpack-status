@@ -1,0 +1,13 @@
+services:
+  modpack-status:
+    build:
+      context: .
+    environment:
+      NODE_ENV: production
+    ports:
+      - 3010:3000
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.modpackstatus.rule=Host(`digbypack.crow.ovh`)"
+      - "traefik.http.routers.modpackstatus.entrypoints=web"
