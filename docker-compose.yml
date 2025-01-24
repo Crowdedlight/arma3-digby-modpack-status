@@ -1,5 +1,5 @@
 services:
-  modpack-status:
+  modpackstatus:
     build:
       context: .
     environment:
@@ -7,7 +7,12 @@ services:
     ports:
       - 3010:3000
     restart: always
+    networks:
+      - traefik_proxy
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.modpackstatus.rule=Host(`digbypack.crow.ovh`)"
-      - "traefik.http.routers.modpackstatus.entrypoints=web"
+      - "traefik.http.routers.modpackstatus.rule=Host(`digbypack.crow.ovh`) || Host(`www.digbypack.crow.ovh`)"
+
+networks:
+  traefik_proxy:
+    external: true
