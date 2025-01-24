@@ -70,7 +70,6 @@ router.get('/', async function (req, res, next) {
             // need to parse incoming data per this protocol...
             // https://community.bistudio.com/wiki/Arma_3:_ServerBrowserProtocol3
             var data = parser(mods);
-            // console.log(data);
             var modpack = getModPack(data);
 
             // render result
